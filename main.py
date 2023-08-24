@@ -22,7 +22,6 @@ def main(args):
         source_adata,
         target_adata,
     ) = prepare_dataloader(args)
-    target_adata.obs.pop("CellType")
 
     source_dataloader_eval_all = deepcopy(source_dataloader_eval)
     target_dataloader_eval_all = deepcopy(target_dataloader_eval)
