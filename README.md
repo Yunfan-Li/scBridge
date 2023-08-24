@@ -9,11 +9,13 @@ cd scBridge
 conda env create -f environment.yml
 conda activate scBridge
 ```
-Note that scBridge runs on a single GPU.
+Note: scBridge runs on a single GPU.
 
 ## Quick Start
 ### Data Preparation
 scBridge accepts AnnData (https://anndata.readthedocs.io/en/latest/index.html) as inputs, including the source (scRNA-seq) and target (scATAC-seq) h5ad files. The source data should include the cell type annotation in `obs.["CellType"]`. The integration process does not require and would not utilize the annotation of the target data. If the target data annotation is provided, the model would evaluate the integration performance by computing metrics such as label transfer accuracy and silhouette score. Put the two h5ad files under the same folder (see the PBMC folder for example).
+
+Note: Please unzip the example data with the `gunzip` command.
 
 ### Data Integration
 To perform data integration, simply run the following command
