@@ -1,5 +1,6 @@
 import torch
 import scanpy as sc
+from scipy import sparse
 from typing import Tuple
 from torch import Tensor
 from sklearn.neighbors import kneighbors_graph
@@ -20,6 +21,8 @@ class TensorDataSetWithIndex(TensorDataset):
 def prepare_dataloader(args):
     # Load and Preprocess Source (RNA) Data
     source_adata = sc.read_h5ad(args.data_path + args.source_data)
+    if isinstance(source_adata.X, sparse.csr_matrix):
+        source_adata.X = source_adata.X.toarray()
     if args.source_preprocess == "Standard":
         sc.pp.normalize_total(source_adata, target_sum=1e4)
         sc.pp.log1p(source_adata)
@@ -40,6 +43,8 @@ def prepare_dataloader(args):
 
     # Load and Preprocess Target (ATAC) Data
     target_adata = sc.read_h5ad(args.data_path + args.target_data)
+    if isinstance(target_adata.X, sparse.csr_matrix):
+        target_adata.X = target_adata.X.toarray()
     if args.target_preprocess == "Standard":
         sc.pp.normalize_total(target_adata, target_sum=1e4)
         sc.pp.log1p(target_adata)
